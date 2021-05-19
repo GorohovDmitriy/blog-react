@@ -7,7 +7,7 @@ export class BlockContent extends Component {
 
 	state = {
 		showBlock: true,
-		blogArr: posts
+		blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts
 	}
 
 	likePost = (pos) => {
@@ -17,8 +17,9 @@ export class BlockContent extends Component {
 		this.setState({
 			blogArr: temp
 		})
-	}
 
+		localStorage.setItem('blogPosts', JSON.stringify(temp))
+	}
 
 
 	toggleBlock = () => {
@@ -27,6 +28,20 @@ export class BlockContent extends Component {
 				showBlock: !showBlock
 			}
 		})
+	}
+
+	deletePost = pos => {
+		if (window.confirm(`Вы действительно хотите удалить ${this.state.blogArr[pos].title} ?`)) {
+			const temp = [...this.state.blogArr]
+			temp.splice(pos, 1)
+
+			this.setState({
+				blogArr: temp
+			})
+
+			localStorage.setItem('blogPosts', JSON.stringify(temp))
+		}
+
 	}
 
 	render() {
@@ -38,6 +53,7 @@ export class BlockContent extends Component {
 					description={item.description}
 					liked={item.liked}
 					likePost={() => this.likePost(pos)}
+					deletePost={() => this.deletePost(pos)}
 				/>
 			)
 		})

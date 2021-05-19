@@ -1,3 +1,13 @@
-.post img {
-	width: 20px;
+
+
+
+.post {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	align-items: flex-end;
+	border-bottom: 1px solid #000;
+}
+.post svg {
+	font-size: 30px;
 }
