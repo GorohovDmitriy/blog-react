@@ -2,5 +2,16 @@
 	margin: 0 auto;
 	width: 1000px;
 	margin-bottom: 100px;
-   margin-top: 45px;
+  margin-top: 45px;
+}
+
+.blackBtn {
+		padding: 5px 15px;
+    border-radius: 6px;
+    background-color: #545960e6;
+    color: white;
+		transition: .1.5s;
+}
+.blackBtn:hover {
+	background-color: #5459609e;
 }

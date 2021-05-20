@@ -1,12 +1,13 @@
 import { posts } from '../../Shared/projectData.js';
 import { BlogCart } from './components/BlogCart.jsx';
+import { AddPostForm } from './components/AddPostForm.jsx';
 import './BlockContent.css';
 import React, { Component } from 'react';
 
 export class BlockContent extends Component {
 
 	state = {
-		showBlock: true,
+		showAddForm: false,
 		blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts
 	}
 
@@ -21,15 +22,6 @@ export class BlockContent extends Component {
 		localStorage.setItem('blogPosts', JSON.stringify(temp))
 	}
 
-
-	toggleBlock = () => {
-		this.setState(({ showBlock }) => {
-			return {
-				showBlock: !showBlock
-			}
-		})
-	}
-
 	deletePost = pos => {
 		if (window.confirm(`Вы действительно хотите удалить ${this.state.blogArr[pos].title} ?`)) {
 			const temp = [...this.state.blogArr]
@@ -41,7 +33,18 @@ export class BlockContent extends Component {
 
 			localStorage.setItem('blogPosts', JSON.stringify(temp))
 		}
+	}
 
+	handleAddFormShow = () => {
+		this.setState({
+			showAddForm: true
+		})
+	}
+
+	handleAddFormHide = () => {
+		this.setState({
+			showAddForm: false
+		})
 	}
 
 	render() {
@@ -58,22 +61,15 @@ export class BlockContent extends Component {
 			)
 		})
 		return (
-			<>
-				<button onClick={this.toggleBlock}>
-					{
-						this.state.showBlock ? 'Hide Block' : 'Show Block'
-					}
-				</button>
-				{
-					this.state.showBlock ?
-						<> <h1>Single Blog</h1>
-							<div className="posts">
-								{blockPosts}
-							</div>
-						</> : null
-				}
+			<div>
+				{this.state.showAddForm ? <AddPostForm handleAddFormHide={this.handleAddFormHide} /> : null}
 
-			</>
+				<h1>Single Blog</h1>
+				<button onClick={this.handleAddFormShow} className="blackBtn" >Create new post</button>
+				<div className="posts">
+					{blockPosts}
+				</div>
+			</div>
 		)
 	}
 }

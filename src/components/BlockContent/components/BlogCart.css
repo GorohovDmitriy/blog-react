@@ -1,6 +1,4 @@
 
-
-
 .post {
 	display: flex;
 	align-items: center;
@@ -10,4 +8,13 @@
 }
 .post svg {
 	font-size: 30px;
+}
+.post p {
+	color: #8d8d8b;
+}
+h1 {
+	opacity: 0.8;
+}
+h2 {
+	opacity: 0.8;
 }
