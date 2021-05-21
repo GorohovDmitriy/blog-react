@@ -32,16 +32,6 @@ export class AddPostForm extends Component {
 		this.props.handleAddFormHide()
 
 	}
-	// componentDidMount() {
-	// 	console.log('sssss')
-	// }
-	// componentDidUpdate() {
-	// 	console.log('dsdsdsdsdsd')
-	// }
-	// componentWillUnmount() {
-	// 	console.log('cxcxcxcxcxc')
-	// }
-
 	render() {
 		const handleAddFormHide = this.props.handleAddFormHide;
 

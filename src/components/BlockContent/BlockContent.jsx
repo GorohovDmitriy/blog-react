@@ -1,7 +1,7 @@
 
 import { BlogCart } from './components/BlogCart.jsx';
+import { posts } from '../../Shared/projectData';
 import { AddPostForm } from './components/AddPostForm.jsx';
-import axios from 'axios';
 import React, { Component } from 'react';
 
 
@@ -11,7 +11,7 @@ export class BlockContent extends Component {
 
 	state = {
 		showAddForm: false,
-		blogArr: []
+		blogArr: JSON.parse(localStorage.getItem("blogPosts")) || posts
 	}
 
 	likePost = (pos) => {
@@ -21,11 +21,10 @@ export class BlockContent extends Component {
 		this.setState({
 			blogArr: temp
 		})
-
-		localStorage.setItem('blogPosts', JSON.stringify(temp))
+		localStorage.setItem("blogPosts", JSON.stringify(temp))
 	}
 
-	deletePost = pos => {
+	deletePost = (pos) => {
 		if (window.confirm(`Вы действительно хотите удалить ${this.state.blogArr[pos].title} ?`)) {
 			const temp = [...this.state.blogArr]
 			temp.splice(pos, 1)
@@ -33,9 +32,19 @@ export class BlockContent extends Component {
 			this.setState({
 				blogArr: temp
 			})
-
-			localStorage.setItem('blogPosts', JSON.stringify(temp))
+			localStorage.setItem("blogPosts", JSON.stringify(temp))
 		}
+	}
+
+	addNewBlogPost = (blogPost) => {
+		this.setState((state) => {
+			const posts = [...state.blogArr]
+			posts.push(blogPost)
+			localStorage.setItem('blogPosts', JSON.stringify(posts))
+			return {
+				blogArr: posts
+			}
+		})
 	}
 
 	handleAddFormShow = () => {
@@ -56,27 +65,8 @@ export class BlockContent extends Component {
 		}
 	}
 
-	addNewBlogPost = (blogPost) => {
-		this.setState((state) => {
-			const posts = [...state.blogArr];
-			posts.push(blogPost)
-			localStorage.setItem('blogPosts', JSON.stringify(posts))
-			return {
-				blogArr: posts
-			}
-		})
-	}
 
 	componentDidMount() {
-		axios.get('https://5fb3db44b6601200168f7fba.mockapi.io/api/posts')
-			.then((response) => {
-				this.setState({
-					blogArr: response.data
-				})
-			})
-			.catch((err) => {
-				console.error(err)
-			})
 		window.addEventListener('keyup', this.handleEscape)
 	}
 	componentWillUnmount() {
@@ -96,10 +86,6 @@ export class BlockContent extends Component {
 				/>
 			)
 		})
-
-		if (this.state.blogArr.length === 0)
-			return <h1>Loading data...</h1>
-
 
 		return (
 			<>
@@ -127,5 +113,3 @@ export class BlockContent extends Component {
 		)
 	}
 }
-
-
