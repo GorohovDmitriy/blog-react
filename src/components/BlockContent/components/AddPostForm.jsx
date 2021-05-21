@@ -14,18 +14,42 @@ export class AddPostForm extends Component {
 		})
 	}
 
-	handlePostDescChange = e => {
+	handlePostDescChange = (e) => {
 		this.setState({
 			postDescription: e.target.value
 		})
 	}
 
+	createPost = (e) => {
+		e.preventDefault()
+		const post = {
+			id: this.props.blogArr.length + 1,
+			title: this.state.postTitle,
+			description: this.state.postDescription,
+			liked: false
+		}
+		this.props.addNewBlogPost(post);
+		this.props.handleAddFormHide()
+
+	}
+	// componentDidMount() {
+	// 	console.log('sssss')
+	// }
+	// componentDidUpdate() {
+	// 	console.log('dsdsdsdsdsd')
+	// }
+	// componentWillUnmount() {
+	// 	console.log('cxcxcxcxcxc')
+	// }
+
 	render() {
+		const handleAddFormHide = this.props.handleAddFormHide;
+
 		return (
 			<>
-				<form action="" className="form">
+				<form action="" className="form" onSubmit={this.createPost}>
 					<button
-						onClick={this.handleAddFormHide}
+						onClick={handleAddFormHide}
 						className="close">
 						<HighlightOffRoundedIcon />
 					</button>
@@ -37,6 +61,7 @@ export class AddPostForm extends Component {
 							placeholder="Post title"
 							value={this.state.postTitle}
 							onChange={this.handlePostTitleChange}
+							required
 						>
 						</input>
 					</div>
@@ -46,19 +71,19 @@ export class AddPostForm extends Component {
 							placeholder="Post description"
 							value={this.state.postDescription}
 							onChange={this.handlePostDescChange}
+							required
 						/>
 					</div>
 					<div>
 						<button
-							onClick={this.handleAddFormHide}
 							className="blackBtn"
-							type="button">
+							type="submit">
 							Add post
-						</button>
+					</button>
 					</div>
 				</form>
-				<div onClick={this.handleAddFormHide} className="overlay"></div>
+				<div className="overlay" onClick={handleAddFormHide}></div>
 			</>
 		)
 	}
-}
+};

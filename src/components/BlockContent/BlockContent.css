@@ -1,3 +1,8 @@
+
+.addNewPost {
+	text-align: center;
+}
+
 .posts {
 	margin: 0 auto;
 	width: 1000px;
@@ -8,10 +13,11 @@
 .blackBtn {
 		padding: 5px 15px;
     border-radius: 6px;
-    background-color: #545960e6;
+    background-color: #393939;
     color: white;
 		transition: .1.5s;
 }
 .blackBtn:hover {
-	background-color: #5459609e;
+	background-color: #393939;
+	opacity: 0.8;
 }
