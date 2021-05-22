@@ -19,7 +19,7 @@ export class BlockContent extends Component {
 	}
 
 	fetchPosts = () => {
-		axios.get('https://5fb3db44b6601200168f7fba.mockapi.io/api/posts')
+		axios.get('https://60a9186c20a6410017306b45.mockapi.io/blog')
 			.then((response) => {
 				this.setState({
 					blogArr: response.data,
@@ -33,7 +33,7 @@ export class BlockContent extends Component {
 	likePost = (blogPost) => {
 		const temp = { ...blogPost }
 		temp.liked = !temp.liked
-		axios.put(`https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/${blogPost.id}`, temp)
+		axios.put(`https://60a9186c20a6410017306b45.mockapi.io/blog/${blogPost.id}`, temp)
 			.then((response) => {
 				this.fetchPosts()
 				console.log(response.data)
@@ -48,7 +48,7 @@ export class BlockContent extends Component {
 			this.setState({
 				isPanding: true
 			})
-			axios.delete(`https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/${blogPost.id}`)
+			axios.delete(`https://60a9186c20a6410017306b45.mockapi.io/blog/${blogPost.id}`)
 				.then((response) => {
 					console.log('post udalen ', response)
 					this.fetchPosts()
@@ -63,7 +63,7 @@ export class BlockContent extends Component {
 		this.setState({
 			isPanding: true
 		})
-		axios.post('https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/', blogPost)
+		axios.post('https://60a9186c20a6410017306b45.mockapi.io/blog/', blogPost)
 			.then((response) => {
 				console.log('dobavili post', response.data)
 				this.fetchPosts()
@@ -77,7 +77,7 @@ export class BlockContent extends Component {
 		this.setState({
 			isPanding: true
 		})
-		axios.put(`https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/${updatedBlogPost.id}`, updatedBlogPost)
+		axios.put(`https://60a9186c20a6410017306b45.mockapi.io/blog/${updatedBlogPost.id}`, updatedBlogPost)
 			.then((response) => {
 				this.fetchPosts()
 			})
