@@ -1,21 +1,40 @@
+.blog-control {
+	display: flex;
+	align-items: center;
+	
+}
+
 .btn-remove {
 	opacity: 0.4;
 }
+.btn-remove:hover {
+	fill: rgb(58, 57, 57);
+	animation: snake 1.2s ease-in-out;
+	opacity: 0.8;
+}
+.edit-btn {
+	opacity: 0.4;
+}
+.edit-btn:hover {
+	fill: rgb(58, 57, 57);
+	animation: snake 1.2s ease-in-out;
+	opacity: 0.8;
+}
+
+
 .post {
+	width: 100%;
 	display: flex;
-	align-items: center;
 	justify-content: space-between;
 	align-items: flex-end;
 	border-bottom: 1px solid #000;
 }
+
 .post svg {
 	fill: rgb(145, 142, 142);
 	font-size: 30px;
 }
-.post svg:hover{
-	fill: rgb(58, 57, 57);
-	animation: snake 1.2s ease-in-out;
-}
+
 @keyframes snake {
 	0%, 50%, 100% {
 		transform: rotate(0deg);

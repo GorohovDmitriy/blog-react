@@ -1,8 +1,8 @@
 
 .addNewPost {
+	margin-bottom: 10px;
 	text-align: center;
 }
-
 .posts {
 	margin: 0 auto;
 	width: 1000px;

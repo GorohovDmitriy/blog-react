@@ -1,11 +1,11 @@
-import './AddPostForm.css';
+import './EditPostForm.css';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import { Component } from 'react';
 
-export class AddPostForm extends Component {
+export class EditPostForm extends Component {
 	state = {
-		postTitle: '',
-		postDescription: '',
+		postTitle: this.props.selectedPost.title,
+		postDescription: this.props.selectedPost.description,
 	}
 
 	handlePostTitleChange = (e) => {
@@ -20,19 +20,20 @@ export class AddPostForm extends Component {
 		})
 	}
 
-	createPost = (e) => {
+	savePost = (e) => {
 		e.preventDefault()
 		const post = {
+			id: this.props.selectedPost.id,
 			title: this.state.postTitle,
 			description: this.state.postDescription,
-			liked: false
+			liked: this.props.selectedPost.liked
 		}
-		this.props.addNewBlogPost(post);
-		this.props.handleAddFormHide()
+		this.props.editBlogPost(post);
+		this.props.handleEditFormHide()
 	}
 	handleEscape = (e) => {
 		if (e.key === 'Escape') {
-			this.props.handleAddFormHide()
+			this.props.handleEditFormHide()
 		}
 	}
 	componentDidMount() {
@@ -44,19 +45,19 @@ export class AddPostForm extends Component {
 
 
 	render() {
-		const handleAddFormHide = this.props.handleAddFormHide;
+		const handleEditFormHide = this.props.handleEditFormHide;
 
 		return (
 			<>
-				<form action="" className="form" onSubmit={this.createPost}>
+				<form action="" className="form" onSubmit={this.savePost}>
 					<button
-						onClick={handleAddFormHide}
+						onClick={handleEditFormHide}
 						className="close">
 						<HighlightOffRoundedIcon />
 					</button>
-					<h2>Post creation</h2>
+					<h2>Post editing</h2>
 					<div>
-						<input className="addFormInput"
+						<input className="EditFormInput"
 							type="text"
 							name="postTitle"
 							placeholder="Post title"
@@ -67,7 +68,7 @@ export class AddPostForm extends Component {
 						</input>
 					</div>
 					<div>
-						<textarea className="addFormInput"
+						<textarea className="EditFormInput"
 							name="postDescription"
 							placeholder="Post description"
 							value={this.state.postDescription}
@@ -79,11 +80,11 @@ export class AddPostForm extends Component {
 						<button
 							className="blackBtn"
 							type="submit">
-							Add post
+							Save changes
 					</button>
 					</div>
 				</form>
-				<div className="overlay" onClick={handleAddFormHide}></div>
+				<div className="overlay" onClick={handleEditFormHide}></div>
 			</>
 		)
 	}

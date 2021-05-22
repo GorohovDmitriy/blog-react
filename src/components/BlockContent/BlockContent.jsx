@@ -1,7 +1,8 @@
-
+import axios from 'axios';
 import { BlogCart } from './components/BlogCart.jsx';
-import { posts } from '../../Shared/projectData';
 import { AddPostForm } from './components/AddPostForm.jsx';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { EditPostForm } from './components/EditPostForm.jsx';
 import React, { Component } from 'react';
 
 
@@ -11,40 +12,78 @@ export class BlockContent extends Component {
 
 	state = {
 		showAddForm: false,
-		blogArr: JSON.parse(localStorage.getItem("blogPosts")) || posts
+		showEditForm: false,
+		blogArr: [],
+		isPanding: false,
+		selectedPost: {},
 	}
 
-	likePost = (pos) => {
-		const temp = [...this.state.blogArr];
-		temp[pos].liked = !temp[pos].liked
-
-		this.setState({
-			blogArr: temp
-		})
-		localStorage.setItem("blogPosts", JSON.stringify(temp))
-	}
-
-	deletePost = (pos) => {
-		if (window.confirm(`Вы действительно хотите удалить ${this.state.blogArr[pos].title} ?`)) {
-			const temp = [...this.state.blogArr]
-			temp.splice(pos, 1)
-
-			this.setState({
-				blogArr: temp
+	fetchPosts = () => {
+		axios.get('https://5fb3db44b6601200168f7fba.mockapi.io/api/posts')
+			.then((response) => {
+				this.setState({
+					blogArr: response.data,
+					isPanding: false
+				})
+			}).catch((err) => {
+				console.log(err)
 			})
-			localStorage.setItem("blogPosts", JSON.stringify(temp))
+	}
+
+	likePost = (blogPost) => {
+		const temp = { ...blogPost }
+		temp.liked = !temp.liked
+		axios.put(`https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/${blogPost.id}`, temp)
+			.then((response) => {
+				this.fetchPosts()
+				console.log(response.data)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
+	deletePost = (blogPost) => {
+		if (window.confirm(`Вы действительно хотите удалить ${blogPost.title} ?`)) {
+			this.setState({
+				isPanding: true
+			})
+			axios.delete(`https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/${blogPost.id}`)
+				.then((response) => {
+					console.log('post udalen ', response)
+					this.fetchPosts()
+				})
+				.catch((err) => {
+					console.log(err)
+				})
 		}
 	}
 
 	addNewBlogPost = (blogPost) => {
-		this.setState((state) => {
-			const posts = [...state.blogArr]
-			posts.push(blogPost)
-			localStorage.setItem('blogPosts', JSON.stringify(posts))
-			return {
-				blogArr: posts
-			}
+		this.setState({
+			isPanding: true
 		})
+		axios.post('https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/', blogPost)
+			.then((response) => {
+				console.log('dobavili post', response.data)
+				this.fetchPosts()
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
+	editBlogPost = (updatedBlogPost) => {
+		this.setState({
+			isPanding: true
+		})
+		axios.put(`https://5fb3db44b6601200168f7fba.mockapi.io/api/posts/${updatedBlogPost.id}`, updatedBlogPost)
+			.then((response) => {
+				this.fetchPosts()
+			})
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 
 	handleAddFormShow = () => {
@@ -58,34 +97,46 @@ export class BlockContent extends Component {
 			showAddForm: false
 		})
 	}
-
-	handleEscape = (e) => {
-		if (e.key === 'Escape' && this.state.showAddForm) {
-			this.handleAddFormHide()
-		}
+	handleEditFormShow = () => {
+		this.setState({
+			showEditForm: true
+		})
 	}
-
+	handleEditFormHide = () => {
+		this.setState({
+			showEditForm: false
+		})
+	}
+	handleSelectPost = (blogPost) => {
+		this.setState({
+			selectedPost: blogPost
+		})
+	}
 
 	componentDidMount() {
-		window.addEventListener('keyup', this.handleEscape)
-	}
-	componentWillUnmount() {
-		window.removeEventListener('keyup', this.handleEscape)
+		this.fetchPosts()
 	}
 
 	render() {
-		const blockPosts = this.state.blogArr.map((item, pos) => {
+		const blockPosts = this.state.blogArr.map((item) => {
 			return (
 				<BlogCart
 					key={item.id}
 					title={item.title}
 					description={item.description}
 					liked={item.liked}
-					likePost={() => this.likePost(pos)}
-					deletePost={() => this.deletePost(pos)}
+					likePost={() => this.likePost(item)}
+					deletePost={() => this.deletePost(item)}
+					handleEditFormShow={this.handleEditFormShow}
+					handleSelectPost={() => this.handleSelectPost(item)}
 				/>
 			)
 		})
+
+		if (this.state.blogArr.length === 0)
+			return <h1>Loading data...</h1>
+
+		const postOpacity = this.state.isPanding ? 0.5 : 1
 
 		return (
 			<>
@@ -96,6 +147,17 @@ export class BlockContent extends Component {
 						handleAddFormHide={this.handleAddFormHide}
 					/>
 				}
+
+				{
+					this.state.showEditForm && (
+						<EditPostForm
+							handleEditFormHide={this.handleEditFormHide}
+							selectedPost={this.state.selectedPost}
+							editBlogPost={this.editBlogPost}
+						/>
+					)
+				}
+
 				<>
 					<h1>Single Blog</h1>
 					<div className="addNewPost">
@@ -105,7 +167,10 @@ export class BlockContent extends Component {
 							Create new post
 						</button>
 					</div>
-					<div className="posts">
+					{
+						this.state.isPanding && <LinearProgress />
+					}
+					<div className="posts" style={{ opacity: postOpacity }}>
 						{blockPosts}
 					</div>
 				</>
