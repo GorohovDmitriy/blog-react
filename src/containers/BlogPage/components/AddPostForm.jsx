@@ -1,11 +1,11 @@
-import './EditPostForm.css';
+import './AddPostForm.css';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import { Component } from 'react';
 
-export class EditPostForm extends Component {
+export class AddPostForm extends Component {
 	state = {
-		postTitle: this.props.selectedPost.title,
-		postDescription: this.props.selectedPost.description,
+		postTitle: '',
+		postDescription: '',
 	}
 
 	handlePostTitleChange = (e) => {
@@ -20,20 +20,19 @@ export class EditPostForm extends Component {
 		})
 	}
 
-	savePost = (e) => {
+	createPost = (e) => {
 		e.preventDefault()
 		const post = {
-			id: this.props.selectedPost.id,
 			title: this.state.postTitle,
 			description: this.state.postDescription,
-			liked: this.props.selectedPost.liked
+			liked: false
 		}
-		this.props.editBlogPost(post);
-		this.props.handleEditFormHide()
+		this.props.addNewBlogPost(post);
+		this.props.handleAddFormHide()
 	}
 	handleEscape = (e) => {
 		if (e.key === 'Escape') {
-			this.props.handleEditFormHide()
+			this.props.handleAddFormHide()
 		}
 	}
 	componentDidMount() {
@@ -45,19 +44,19 @@ export class EditPostForm extends Component {
 
 
 	render() {
-		const handleEditFormHide = this.props.handleEditFormHide;
+		const handleAddFormHide = this.props.handleAddFormHide;
 
 		return (
 			<>
-				<form action="" className="form" onSubmit={this.savePost}>
+				<form action="" className="form" onSubmit={this.createPost}>
 					<button
-						onClick={handleEditFormHide}
+						onClick={handleAddFormHide}
 						className="close">
 						<HighlightOffRoundedIcon />
 					</button>
-					<h2>Post editing</h2>
+					<h2>Post creation</h2>
 					<div>
-						<input className="EditFormInput"
+						<input className="addFormInput"
 							type="text"
 							name="postTitle"
 							placeholder="Post title"
@@ -68,11 +67,12 @@ export class EditPostForm extends Component {
 						</input>
 					</div>
 					<div>
-						<textarea className="EditFormInput"
+						<textarea className="addFormInput"
 							name="postDescription"
 							placeholder="Post description"
 							value={this.state.postDescription}
 							onChange={this.handlePostDescChange}
+							rows={6}
 							required
 						/>
 					</div>
@@ -80,11 +80,11 @@ export class EditPostForm extends Component {
 						<button
 							className="blackBtn"
 							type="submit">
-							Save changes
+							Add post
 					</button>
 					</div>
 				</form>
-				<div className="overlay" onClick={handleEditFormHide}></div>
+				<div className="overlay" onClick={handleAddFormHide}></div>
 			</>
 		)
 	}

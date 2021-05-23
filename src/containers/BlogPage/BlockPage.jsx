@@ -1,14 +1,16 @@
+import React, { Component } from 'react';
 import axios from 'axios';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { BlogCart } from './components/BlogCart.jsx';
 import { AddPostForm } from './components/AddPostForm.jsx';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { EditPostForm } from './components/EditPostForm.jsx';
-import React, { Component } from 'react';
+
+import './BlockPage.css';
+
+let source;
 
 
-import './BlockContent.css';
-
-export class BlockContent extends Component {
+export class BlockPage extends Component {
 
 	state = {
 		showAddForm: false,
@@ -19,7 +21,9 @@ export class BlockContent extends Component {
 	}
 
 	fetchPosts = () => {
-		axios.get('https://60a9186c20a6410017306b45.mockapi.io/blog')
+		source = axios.CancelToken.source();
+		let config = { cancelToken: source.token }
+		axios.get('https://60a9186c20a6410017306b45.mockapi.io/blog', config)
 			.then((response) => {
 				this.setState({
 					blogArr: response.data,
@@ -28,6 +32,14 @@ export class BlockContent extends Component {
 			}).catch((err) => {
 				console.log(err)
 			})
+	}
+	componentDidMount() {
+		this.fetchPosts()
+	}
+	componentWillUnmount() {
+		if (source) {
+			source.cancel()
+		}
 	}
 
 	likePost = (blogPost) => {
@@ -111,10 +123,6 @@ export class BlockContent extends Component {
 		this.setState({
 			selectedPost: blogPost
 		})
-	}
-
-	componentDidMount() {
-		this.fetchPosts()
 	}
 
 	render() {

@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
 export function Header() {
@@ -5,9 +6,8 @@ export function Header() {
 		<div>
 			<header>
 				<nav>
-					<a href="#first">Home</a>
-					<a href="#second">About</a>
-					<a href="#thrid">Contact</a>
+					<NavLink activeClassName="activLink" exact to="/">Home</NavLink>
+					<NavLink activeClassName="activLink" exact to="/login">login</NavLink>
 				</nav>
 			</header>
 		</div>

@@ -18,3 +18,8 @@ header a {
 header a:hover {
 	color: #d15700;
 }
+
+.activLink {
+	font-weight: 900;
+	color: #2ecc71;
+}
