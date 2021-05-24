@@ -1,11 +1,28 @@
+import { useState } from 'react';
 import './LoginPage.css';
 
 
-export const LoginPage = (props) => {
+export const LoginPage = ({ setUserName, setIsLoggedIn, history }) => {
+	const [login, setLogin] = useState('')
+	const [password, setPassword] = useState('');
+
+
+	const handleLoginChange = (e) => {
+		setLogin(e.target.value)
+	}
+	const handlePasswordChange = (e) => {
+		setPassword(e.target.value)
+	}
+
+
 	const handleLogIn = (e) => {
 		e.preventDefault()
-		props.history.push('/')
 
+		localStorage.setItem('isLoggedIn', true)
+		localStorage.setItem('userName', login)
+		setUserName(login)
+		setIsLoggedIn(true)
+		history.push('/')
 	}
 
 
@@ -14,8 +31,8 @@ export const LoginPage = (props) => {
 		<div>
 			<form className="box" onSubmit={handleLogIn}>
 				<h1>Login</h1>
-				<input type="text" name="" placeholder="Username" required></input>
-				<input type="password" name="" placeholder="Password" required></input>
+				<input onChange={handleLoginChange} type="text" name="" placeholder="Username" required></input>
+				<input onChange={handlePasswordChange} type="password" name="" placeholder="Password" required></input>
 				<input type="submit" value="Login" name=""></input>
 			</form>
 		</div>

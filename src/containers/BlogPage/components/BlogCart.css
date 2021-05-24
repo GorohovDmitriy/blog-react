@@ -27,9 +27,9 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	border: 1px solid #000;
+	border: 1px solid;
 	border-radius: 10px;
-	border-color: #2ecc71;
+	border-color: #000;
 	padding: 10px;
 	margin-bottom: 35px;
 	background-color: #f2f2f2;
