@@ -1,7 +1,6 @@
 .blog-control {
 	display: flex;
 	align-items: center;
-	
 }
 
 .btn-remove {
@@ -21,7 +20,6 @@
 	opacity: 0.8;
 }
 
-
 .post {
 	width: 100%;
 	display: flex;
@@ -34,6 +32,7 @@
 	margin-bottom: 35px;
 	background-color: #f2f2f2;
 	transition: 0.5s;
+	box-shadow: 0px 2px 5px rgb(129, 128, 128);
 }
 
 .post:hover {
@@ -46,18 +45,20 @@
 }
 
 @keyframes snake {
-	0%, 50%, 100% {
+	0%,
+	50%,
+	100% {
 		transform: rotate(0deg);
 	}
-	10%, 30% {
+	10%,
+	30% {
 		transform: rotate(-10deg);
 	}
-	20%, 40% {
+	20%,
+	40% {
 		transform: rotate(10deg);
 	}
 }
-
-
 
 .post p {
 	color: #8d8d8b;
