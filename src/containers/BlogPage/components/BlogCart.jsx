@@ -1,8 +1,7 @@
-import './BlogCart.css';
-import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import EditIcon from '@material-ui/icons/Edit';
-
+import './BlogCart.css'
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import EditIcon from '@material-ui/icons/Edit'
 
 export const BlogCart = ({
 	title,
@@ -11,19 +10,18 @@ export const BlogCart = ({
 	likePost,
 	deletePost,
 	handleEditFormShow,
-	handleSelectPost
+	handleSelectPost,
 }) => {
-
 	const showEditForm = () => {
-		handleSelectPost();
-		handleEditFormShow();
+		handleSelectPost()
+		handleEditFormShow()
 	}
 
 	const heartFill = liked ? 'crimson' : 'black'
 
 	return (
-		<div className="post">
-			<div className="post-content">
+		<div className='post'>
+			<div className='post-content'>
 				<h2>{title}</h2>
 				<p>{description}</p>
 				<div>
@@ -32,15 +30,14 @@ export const BlogCart = ({
 					</button>
 				</div>
 			</div>
-			<div className="blog-control">
-				<button className="edit-btn" onClick={showEditForm}>
+			<div className='blog-control'>
+				<button className='edit-btn' onClick={showEditForm}>
 					<EditIcon />
 				</button>
-				<button className="btn-remove" onClick={deletePost}>
+				<button className='btn-remove' onClick={deletePost}>
 					<DeleteForeverRoundedIcon />
 				</button>
 			</div>
 		</div>
 	)
-
 }

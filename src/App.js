@@ -1,32 +1,27 @@
-import { Header } from './components/Header/Header';
-import { BlockPage } from './containers/BlogPage/BlockPage';
-import { Footer } from './components/Footer/Footer';
+import { Header } from './components/Header/Header'
+import { BlockPage } from './containers/BlogPage/BlockPage'
+import { Footer } from './components/Footer/Footer'
 
-import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { LoginPage } from './containers/LoginPage/LoginPage';
-import { useState } from 'react';
-
-
+import './App.css'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { LoginPage } from './containers/LoginPage/LoginPage'
+import { useState } from 'react'
 
 export function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
-	const [userName, setUserName] = useState(localStorage.getItem('userName'));
+	const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true')
+	const [userName, setUserName] = useState(localStorage.getItem('userName'))
 
 	return (
 		<BrowserRouter>
-			<div className="App">
+			<div className='App'>
 				<Header userName={userName} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 				<main>
 					<Switch>
-						<Route exact path="/" component={BlockPage} />
-						<Route path="/login"
-							render={(props) =>
-							(<LoginPage
-								{...props}
-								setIsLoggedIn={setIsLoggedIn}
-								setUserName={setUserName}
-							/>
+						<Route exact path='/' component={BlockPage} />
+						<Route
+							path='/login'
+							render={(props) => (
+								<LoginPage {...props} setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} />
 							)}
 						/>
 					</Switch>
@@ -34,7 +29,5 @@ export function App() {
 				<Footer year={new Date().getFullYear()} />
 			</div>
 		</BrowserRouter>
-	);
+	)
 }
-
-

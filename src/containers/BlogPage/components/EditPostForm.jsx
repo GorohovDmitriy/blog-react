@@ -1,6 +1,6 @@
-import './EditPostForm.css';
-import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-import { Component } from 'react';
+import './EditPostForm.css'
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded'
+import { Component } from 'react'
 
 export class EditPostForm extends Component {
 	state = {
@@ -10,13 +10,13 @@ export class EditPostForm extends Component {
 
 	handlePostTitleChange = (e) => {
 		this.setState({
-			postTitle: e.target.value
+			postTitle: e.target.value,
 		})
 	}
 
 	handlePostDescChange = (e) => {
 		this.setState({
-			postDescription: e.target.value
+			postDescription: e.target.value,
 		})
 	}
 
@@ -26,9 +26,9 @@ export class EditPostForm extends Component {
 			id: this.props.selectedPost.id,
 			title: this.state.postTitle,
 			description: this.state.postDescription,
-			liked: this.props.selectedPost.liked
+			liked: this.props.selectedPost.liked,
 		}
-		this.props.editBlogPost(post);
+		this.props.editBlogPost(post)
 		this.props.handleEditFormHide()
 	}
 	handleEscape = (e) => {
@@ -43,34 +43,32 @@ export class EditPostForm extends Component {
 		window.removeEventListener('keyup', this.handleEscape)
 	}
 
-
 	render() {
-		const handleEditFormHide = this.props.handleEditFormHide;
+		const handleEditFormHide = this.props.handleEditFormHide
 
 		return (
 			<>
-				<form action="" className="form" onSubmit={this.savePost}>
-					<button
-						onClick={handleEditFormHide}
-						className="close">
+				<form action='' className='form' onSubmit={this.savePost}>
+					<button onClick={handleEditFormHide} className='close'>
 						<HighlightOffRoundedIcon />
 					</button>
 					<h2>Post editing</h2>
 					<div>
-						<input className="EditFormInput"
-							type="text"
-							name="postTitle"
-							placeholder="Post title"
+						<input
+							className='EditFormInput'
+							type='text'
+							name='postTitle'
+							placeholder='Post title'
 							value={this.state.postTitle}
 							onChange={this.handlePostTitleChange}
 							required
-						>
-						</input>
+						></input>
 					</div>
 					<div>
-						<textarea className="EditFormInput"
-							name="postDescription"
-							placeholder="Post description"
+						<textarea
+							className='EditFormInput'
+							name='postDescription'
+							placeholder='Post description'
 							value={this.state.postDescription}
 							onChange={this.handlePostDescChange}
 							rows={6}
@@ -78,15 +76,13 @@ export class EditPostForm extends Component {
 						/>
 					</div>
 					<div>
-						<button
-							className="blackBtn"
-							type="submit">
+						<button className='blackBtn' type='submit'>
 							Save changes
-					</button>
+						</button>
 					</div>
 				</form>
-				<div className="overlay" onClick={handleEditFormHide}></div>
+				<div className='overlay' onClick={handleEditFormHide}></div>
 			</>
 		)
 	}
-};
+}
